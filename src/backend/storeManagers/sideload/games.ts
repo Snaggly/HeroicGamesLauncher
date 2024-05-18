@@ -71,7 +71,8 @@ export async function launch(
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   launchArguments?: LaunchOption
 ): Promise<boolean> {
-  return launchGame(appName, getGameInfo(appName), 'sideload')
+  // wait for the game to launch and finish running
+  return Promise.resolve(launchGame(appName, getGameInfo(appName), 'sideload'))
 }
 
 export async function stop(appName: string): Promise<void> {
