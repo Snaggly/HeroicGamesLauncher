@@ -1085,7 +1085,7 @@ async function callRunner(
 
   //this must be a native sideload
   if (runner.name === 'sideload' && wrappers.length > 0) {
-    commandParts.unshift(...wrappers, runner.bin)
+    commandParts.unshift(...wrappers, fullRunnerPath)
     bin = commandParts.shift()!
     fullRunnerPath = bin
   }
