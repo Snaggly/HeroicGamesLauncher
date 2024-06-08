@@ -190,6 +190,11 @@ export async function launchGame(
       return false
     }
 
+    appendGamePlayLog(
+      gameInfo,
+      `Launch Command: ${executable} ${launcherArgs ?? ''}\n`
+    )
+
     sendGameStatusUpdate({
       appName,
       runner,
@@ -234,7 +239,10 @@ export async function launchGame(
           env,
           wrappers,
           logFile: lastPlayLogFileLocation(appName),
-          logMessagePrefix: LogPrefix.Backend
+          logMessagePrefix: LogPrefix.Backend,
+          onOutput: (output) => {
+            if (!logsDisabled) appendGamePlayLog(gameInfo, output)
+          }
         }
       )
 
