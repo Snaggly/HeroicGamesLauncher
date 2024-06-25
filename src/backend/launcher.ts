@@ -1083,11 +1083,9 @@ async function callRunner(
   // requires a "./"
   if (!isWindows) bin = './' + bin
 
-  // this must be a native sideload
   if (runner.name === 'sideload' && wrappers.length > 0) {
     commandParts.unshift(...wrappers, fullRunnerPath)
-    bin = commandParts.shift()!
-    fullRunnerPath = bin
+    fullRunnerPath = bin = commandParts.shift()!
   }
 
   // On Windows: Use PowerShell's `Start-Process` to wait for the process and
