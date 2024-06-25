@@ -73,9 +73,7 @@ export async function launch(
   launchArguments?: LaunchOption
 ): Promise<boolean> {
   // wait for the game to launch and finish running
-  return Promise.resolve(
-    await launchGame(appName, getGameInfo(appName), 'sideload')
-  )
+  return launchGame(appName, getGameInfo(appName), 'sideload')
 }
 
 export async function stop(appName: string): Promise<void> {
