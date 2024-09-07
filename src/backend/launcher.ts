@@ -1504,7 +1504,6 @@ export {
   setupWrappers,
   runWineCommand,
   callRunner,
-  getRunnerCallWithoutCredentials,
   getWinePath,
   runAfterLaunchScript,
   runBeforeLaunchScript
