@@ -203,11 +203,6 @@ export async function launchGame(
 
     // Native
     if (isNative) {
-      logInfo(
-        `launching native sideloaded game: ${executable} ${extraArgsJoined}`,
-        LogPrefix.Backend
-      )
-
       try {
         await access(executable, FS_CONSTANTS.X_OK)
       } catch (error) {
@@ -226,6 +221,15 @@ export async function launchGame(
         ...setupWrapperEnvVars({ appName, appRunner: runner }),
         ...setupEnvVars(gameSettings, gameInfo.install.install_path)
       }
+      const envJoined = Object.entries(env)
+        .map(([key, value]) => `${key}=${value}`)
+        .sort()
+        .join(' ')
+
+      logInfo(
+        `launching native sideloaded game: ${envJoined} ${executable} ${extraArgsJoined}`,
+        LogPrefix.Backend
+      )
 
       await callRunner(
         extraArgs,
