@@ -24,7 +24,6 @@ import {
 import { LegendaryUser } from './user'
 import {
   downloadFile,
-  getLegendaryBin,
   killPattern,
   moveOnUnix,
   moveOnWindows,
@@ -58,7 +57,6 @@ import {
   setupWrapperEnvVars,
   setupWrappers,
   launchCleanup,
-  getRunnerCallWithoutCredentials,
   runWineCommand as runWineCommandUtil
 } from '../../launcher'
 import {
@@ -951,19 +949,13 @@ export async function launch(
   if (isCLINoGui) command['--skip-version-check'] = true
   if (gameInfo.isEAManaged) command['--origin'] = true
 
-  const fullCommand = getRunnerCallWithoutCredentials(
-    command,
-    commandEnv,
-    join(...Object.values(getLegendaryBin()))
-  )
-  appendGamePlayLog(gameInfo, `Launch Command: ${fullCommand}\n\nGame Log:\n`)
-
   sendGameStatusUpdate({ appName, runner: 'legendary', status: 'playing' })
 
   const { error } = await runLegendaryCommand(command, {
     abortId: appName,
     env: commandEnv,
     wrappers: wrappers,
+    gameInfo: gameInfo,
     logMessagePrefix: `Launching ${gameInfo.title}`,
     onOutput: (output) => {
       if (!logsDisabled) appendGamePlayLog(gameInfo, output)

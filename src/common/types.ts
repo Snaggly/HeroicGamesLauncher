@@ -403,6 +403,7 @@ export interface CallRunnerOptions {
   wrappers?: string[]
   onOutput?: (output: string, child: ChildProcess) => void
   abortId?: string
+  gameInfo?: GameInfo
 }
 
 export interface EnviromentVariable {

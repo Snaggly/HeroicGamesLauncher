@@ -31,7 +31,6 @@ import {
 import { isLinux, isWindows } from 'backend/constants'
 import { GameConfig } from 'backend/game_config'
 import {
-  getRunnerCallWithoutCredentials,
   launchCleanup,
   prepareLaunch,
   prepareWineLaunch,
@@ -47,9 +46,7 @@ import {
   isUmuSupported
 } from 'backend/utils/compatibility_layers'
 import shlex from 'shlex'
-import { join } from 'path'
 import {
-  getNileBin,
   killPattern,
   moveOnUnix,
   moveOnWindows,
@@ -417,12 +414,6 @@ export async function launch(
     ...shlex.split(gameSettings.launcherArgs ?? ''),
     appName
   ]
-  const fullCommand = getRunnerCallWithoutCredentials(
-    commandParts,
-    commandEnv,
-    join(...Object.values(getNileBin()))
-  )
-  appendGamePlayLog(gameInfo, `Launch Command: ${fullCommand}\n\nGame Log:\n`)
 
   sendGameStatusUpdate({ appName, runner: 'nile', status: 'playing' })
 
@@ -430,6 +421,7 @@ export async function launch(
     abortId: appName,
     env: commandEnv,
     wrappers,
+    gameInfo,
     logMessagePrefix: `Launching ${gameInfo.title}`,
     onOutput(output) {
       if (!logsDisabled) appendGamePlayLog(gameInfo, output)
